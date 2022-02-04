@@ -1,12 +1,15 @@
+
+// props = user, url, method
 export default function UserForm(props){
-
-    // props = user, url, method
-
+    // check and parse skillset
     const skillset = (props.user.skills ? JSON.parse(props.user.skills).join(',') : '')
-    let defaultDate = ( props.user.since ? Date.parse(props.user.since) : Date.now() )
-    const d = new Date(defaultDate),
-        formattedDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
 
+    // set date and format
+    let defaultDate = ( props.user.since != undefined ? Date.parse(props.user.since) : Date.now() )
+    const d = new Date(defaultDate),
+        formattedDate = `${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + (d.getDate())).slice(-2)}`
+
+    // setup request handler
     const handleUserRequest = async event => {
         event.preventDefault()
         let req = event.target,
@@ -31,6 +34,7 @@ export default function UserForm(props){
         })
 
         const result = await res.json()
+        // log result
         console.log(result)
     }
 

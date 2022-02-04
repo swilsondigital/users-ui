@@ -7,7 +7,7 @@ function EditUser({user}){
 }
 
 export async function getStaticPaths(){
-
+    // get dynamic routes from api
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`)
     const users = await res.json()
 
@@ -19,6 +19,7 @@ export async function getStaticPaths(){
 }
 
 export async function getStaticProps({ params }){
+    // get user from api
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${params.id}`)
     const user = await res.json()
 

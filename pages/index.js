@@ -1,3 +1,5 @@
+// TODO: Remove this file once ready for "live". Using as example only
+
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
