@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 function Users({users}){
 
     // handle deletion method
@@ -16,12 +18,12 @@ function Users({users}){
 
     return (
         <div>
-            <a href="/users/create">Create New User</a>
+            <Link href="/users/create">Create New User</Link>
             { users.length > 0
                 ? <div>
                     <ul>
                         {users.map((user) => {
-                            return <li key={user.ID}><a href={ `/users/` + user.ID}>{user.fname} {user.lname}</a></li>
+                            return <li key={user.ID}><Link href={ `/users/` + user.ID}>{user.fname} {user.lname}</Link></li>
                         })}
                     </ul>
                     <button onClick={deleteAllUsers}>Delete Users</button>
