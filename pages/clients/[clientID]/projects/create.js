@@ -9,7 +9,7 @@ export async function getStaticPaths(){
     const clients = await res.json()
 
     const paths = clients.map((client) => ({
-        params: { id: client.ID.toString() }
+        params: { clientID: client.ID.toString() }
     }))
 
     return {paths, fallback: false }
@@ -17,7 +17,7 @@ export async function getStaticPaths(){
 
 export async function getStaticProps({ params }){
     // get client from api
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/clients/${params.id}`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/clients/${params.clientID}`)
     const client = await res.json()
 
     return { props: {client} }
