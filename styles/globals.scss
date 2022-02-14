@@ -10,15 +10,32 @@ body {
 }
 
 form {
+    padding: 2rem;
 
-    div {
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: column;
+    .form {
+        &-group {
+            margin-bottom: 1rem;
+        }
+
+        &-label {
+            margin-bottom: 0.5rem;
+        }
     }
+
     input,
     textarea {
         border: 1px solid black;
         padding: 0.5rem;
+    }
+
+    .preview-image {
+        max-width: 200px;
+        display: block;
+
+        img {
+            border: 1px solid rgba(225,225,225,0.8) !important;
+            height: auto !important;
+            min-height: auto !important;
+        }
     }
 }
