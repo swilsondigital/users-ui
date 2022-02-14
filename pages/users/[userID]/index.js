@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 export default function ViewUser({user}) {
     // parse user data for easier usage
     
@@ -21,7 +23,9 @@ export default function ViewUser({user}) {
     return (
         <div>
             <ul>
-                <li>Profile Image Here</li>
+                { (user.Profile != undefined && user.Profile.ProfilePhoto !== null ) && 
+                    <li><Image src={user.Profile.ProfilePhoto.Blob} className="profile-image" width={200} height={200} layout="responsive" alt={user.FirstName +` `+ user.LastName +` profile photo`} /></li>
+                }
                 <li>Name: {user.FirstName} {user.LastName}</li>
                 { user.PreferredName && <li>Goes By: {user.PreferredName}</li> }
                 <li>Email: {user.Email}</li>
