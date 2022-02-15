@@ -8,12 +8,10 @@ export default async function handler(req, res){
         case "PUT":
             fetchOptions.body = JSON.stringify(req.body)
             break
-        
     }
 
     try {
         // submit request to api
-        console.log(fetchURL)
         const response = await fetch(`${process.env.DB_URL + fetchURL}`, fetchOptions)
         let data = await response.json()
         // set response data
