@@ -1,4 +1,26 @@
+import ProjectForm from "../../../../components/ProjectForm";
+
 export default function CreateClientProject({client}) {
     // render project creation form
-    return (<div>Client Project Creation Form Here</div>);
+    return (<div><ProjectForm client={client} project={false} url={`${process.env.NEXT_PUBLIC_API_URL}/projects/`} method="POST"></ProjectForm></div>);
+}
+
+export async function getStaticPaths(){
+    // get dynamic routes from api
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/clients`)
+    const clients = await res.json()
+
+    const paths = clients.map((client) => ({
+        params: { clientID: client.ID.toString() }
+    }))
+
+    return {paths, fallback: false }
+}
+
+export async function getStaticProps({ params }){
+    // get client from api
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/clients/${params.clientID}`)
+    const client = await res.json()
+
+    return { props: {client} }
 }

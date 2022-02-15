@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ViewClient({client}) {
 
@@ -42,14 +43,17 @@ export default function ViewClient({client}) {
         <div>
             <h2>{client.Name}</h2>
             {
-                client.Logo !== null &&
+                (client.Logo !== undefined && client.Logo !== null) &&
                 <div className="preview-image"><Image src={client.Logo.Blob} className="profile-image" width={200} height={200} layout="responsive" alt={`${client.Name} logo`} /></div>
             }
             <ul>
                 { client.Phone && <li>Phone: {client.Phone}</li>}
-                <li>Address: {renderAddress(client.Address)}</li>
                 {
-                    client.Contact !== null &&
+                    (client.Address !== undefined && client.Address !== null) &&
+                    <li>Address:{renderAddress(client.Address)}</li>
+                }
+                {
+                    (client.Contact !== undefined && client.Contact !== null) &&
                     <li>Contact:{renderContact(client.Contact)}</li>
                 }
             </ul>
@@ -70,17 +74,19 @@ export default function ViewClient({client}) {
                         { projects.map((p) => { 
                             return <tr key={p.ID}>
                                     <td>{p.ID}</td>
-                                    <td>{p.Name}</td>
+                                    <td><Link href={`/clients/${client.ID}/projects/${p.ID}`}>{p.Name}</Link></td>
                                     <td>Engineers Here</td>
                                     <td>{projectTech(p.Technologies)}</td>
                                     <td>{formatDate(p.Start_Date)}</td>
                                     <td>{formatDate(p.Delivery_Date)}</td>
+                                    <td><Link href={`/clients/${client.ID}/projects/${p.ID}/edit`}>Edit</Link></td>
                                 </tr>
                             })
                         }
                     </tbody>
                 </table>
             }
+            <Link href={`/clients/${client.ID}/projects/create`}>Create New Project</Link>
         </div>
     );
 }

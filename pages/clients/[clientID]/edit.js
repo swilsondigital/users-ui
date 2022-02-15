@@ -1,6 +1,8 @@
+import ClientForm from "../../../components/ClientForm";
+
 export default function EditClient({client}) {
     // render client form
-    return (<div>Edit Client Form</div>);
+    return (<div><ClientForm client={client} url={`${process.env.NEXT_PUBLIC_API_URL}/clients/${client.ID}`} method="PUT"></ClientForm></div>);
 }
 
 export async function getStaticPaths(){
