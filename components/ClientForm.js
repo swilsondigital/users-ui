@@ -3,6 +3,7 @@ import Input from "react-phone-number-input/input"
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import FormSubmissionModal from "./FormSubmissionModal"
 
 export default function ClientForm(props){
     const cancelLink = ( props.client ? `/clients/${props.client.ID}` : `/clients/` ),
@@ -23,11 +24,18 @@ export default function ClientForm(props){
         }
     }
 
-    // set state optinos and setters
-    const [clientPhoneValue, setClientPhoneValue] = useState(props.client.Phone)
-    const [contactPhoneValue, setContactPhoneValue] = useState(defaultContactPhone)
-    const [imageValue, setImageValue] = useState(defaultLogo)
-    const [isPrivate, setIsPrivate] = useState(defaultIsPrivate);
+    // set state options and setters
+    const [clientPhoneValue, setClientPhoneValue] = useState(props.client.Phone),
+        [contactPhoneValue, setContactPhoneValue] = useState(defaultContactPhone),
+        [imageValue, setImageValue] = useState(defaultLogo),
+        [isPrivate, setIsPrivate] = useState(defaultIsPrivate),
+        [modalStatus, setModalStatus] = useState('default'),
+        [modalMessage, setModalMessage] = useState('')
+
+    const handleModal = (status, message) => {
+        setModalStatus(status)
+        setModalMessage(message)
+    }
 
     const updateIsPrivate = () => {
         setIsPrivate(!isPrivate)
@@ -72,6 +80,9 @@ export default function ClientForm(props){
             Logo: imageValue
         });
 
+        // set modal status to submitting
+        handleModal("submitting", "Submitting, please wait...")
+
         const res = await fetch(props.url, {
             body: reqBody,
             headers: {
@@ -80,9 +91,14 @@ export default function ClientForm(props){
             method: props.method,
         })
 
-        const result = await res.json()
-        // log result
-        console.log(result)
+        if (res.status === 200 ){
+            const result = await res.json()
+            // set modal status to success
+            handleModal("success", "Client updated successfully. Redirecting...")
+        } else {
+            console.log(res)
+            handleModal("error", "Something went wrong. Please check the logs and try again.")
+        }
     }
 
     // read file uploads for preview
@@ -104,6 +120,8 @@ export default function ClientForm(props){
 
     // render form
     return (
+        <div>
+            <FormSubmissionModal status={modalStatus} setStatus={setModalStatus} message={modalMessage} setMessage={setModalMessage} redirect={cancelLink}></FormSubmissionModal>
         <form onSubmit={handleRequest} encType="multipart/form-data">
             <div className="form-group">
                 <label className="form-label" htmlFor="Name">Client Name:</label>
@@ -188,5 +206,6 @@ export default function ClientForm(props){
             <button className="bg-black text-white p-3">Submit</button>
             <Link href={cancelLink}>Cancel</Link>
         </form>
+        </div>
     )
 }

@@ -4,6 +4,7 @@ import Input from "react-phone-number-input/input"
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import FormSubmissionModal from "./FormSubmissionModal"
 
 // props = user, url, method
 export default function UserForm(props){
@@ -24,9 +25,16 @@ export default function UserForm(props){
     }
 
     // set state options and setters
-    const [phoneValue, setPhoneValue] = useState(props.user.Phone)
-    const [imageValue, setImageValue] = useState(defaultProfileImage)
-    const [technologies, setTechnologies] = useState(defaultUserTech)
+    const [phoneValue, setPhoneValue] = useState(props.user.Phone),
+        [imageValue, setImageValue] = useState(defaultProfileImage),
+        [technologies, setTechnologies] = useState(defaultUserTech),
+        [modalStatus, setModalStatus] = useState('default'),
+        [modalMessage, setModalMessage] = useState('')
+
+    const handleModal = (status, message) => {
+        setModalStatus(status)
+        setModalMessage(message)
+    }
 
     // read file uploads for preview
     const readFile = (event) => {
@@ -62,6 +70,10 @@ export default function UserForm(props){
             ProfilePhoto: imageValue,
             Technologies: tech
         });
+
+        // set modal status to submitting
+        handleModal("submitting", "Submitting, please wait...")
+
         const res = await fetch(props.url, {
             body: reqBody,
             headers: {
@@ -70,9 +82,14 @@ export default function UserForm(props){
             method: props.method,
         })
 
-        const result = await res.json()
-        // log result
-        console.log(result)
+        if (res.status === 200 ){
+            const result = await res.json()
+            // set modal status to success
+            handleModal("success", "Project updated successfully. Redirecting...")
+        } else {
+            console.log(res)
+            handleModal("error", "Something went wrong. Please check the logs and try again.")
+        }
     }
 
     return (
