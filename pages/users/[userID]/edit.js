@@ -7,21 +7,9 @@ export default function EditUser({user}) {
     )
 }
 
-export async function getStaticPaths(){
-    // get dynamic routes from api
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/`)
-    const users = await res.json()
-
-    const paths = users.map((user) => ({
-        params: { userID: user.ID.toString() }
-    }))
-
-    return {paths, fallback: false }
-}
-
-export async function getStaticProps({ params }){
+export async function getServerSideProps(context){
     // get user from api
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${params.userID}`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/${context.params.userID}`)
     const user = await res.json()
 
     return { props: {user} }

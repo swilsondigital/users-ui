@@ -20,7 +20,7 @@ export default function ListClients({clients}) {
     )
 }
 
-export async function getStaticProps(){
+export async function getServerSideProps(context){
     // get all clients from api
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/clients`)
     const clients = await res.json()
