@@ -59,8 +59,7 @@ export default function PortfolioRecordForm(props){
         if (res.status === 200 ){
             const result = await res.json()
             // set modal status to success
-            console.log(result)
-            // handleModal("success", "Project Record updated successfully. Redirecting...")
+            handleModal("success", "Project Record updated successfully. Redirecting...")
         } else {
             const result = await res.json()
             console.log(res, result)
