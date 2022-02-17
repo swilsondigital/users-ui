@@ -41,6 +41,7 @@ export default function ClientForm(props){
         setIsPrivate(!isPrivate)
     }
 
+    // check if array values are empty strings (with exceptions)
     const jsonArrayEmptyCheck = (arr) => {
         return arr.every((current, index) => {
             if (index == 5 && current == 'United States') {
@@ -125,7 +126,7 @@ export default function ClientForm(props){
         <form onSubmit={handleRequest} encType="multipart/form-data">
             <div className="form-group">
                 <label className="form-label" htmlFor="Name">Client Name:</label>
-                <input type="text" className="form-control" name="Name" defaultValue={props.client.Name} placeholder="Enter Client Name" />
+                <input type="text" className="form-control" name="Name" defaultValue={props.client.Name} placeholder="Enter Client Name" required />
             </div>
             <div className="form-group">
                 <label className="form-label" htmlFor="Phone">Phone Number:</label>

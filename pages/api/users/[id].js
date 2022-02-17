@@ -15,7 +15,7 @@ export default async function handler(req, res){
         const response = await fetch(`${process.env.DB_URL}/users/${id}`, fetchOptions)
         let data = await response.json()
         // set response to frontend
-        res.statusCode = 200;
+        res.statusCode = response.status;
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(data));
     } catch (error) {

@@ -93,15 +93,17 @@ export default function UserForm(props){
     }
 
     return (
+        <div>
+            <FormSubmissionModal status={modalStatus} setStatus={setModalStatus} message={modalMessage} setMessage={setModalMessage} redirect={cancelLink}></FormSubmissionModal>
         <form onSubmit={handleUserRequest} encType="multipart/form-data">
             
             <div className="form-group">
                 <label className="form-label" htmlFor="FirstName">First Name:</label>
-                <input type="text" className="form-control" name="FirstName" defaultValue={props.user.FirstName} placeholder="Enter First Name" />
+                <input type="text" className="form-control" name="FirstName" defaultValue={props.user.FirstName} placeholder="Enter First Name" required />
             </div>
             <div className="form-group">
                 <label className="form-label" htmlFor="LastName">Last Name:</label>
-                <input type="text" className="form-control" name="LastName" defaultValue={props.user.LastName} placeholder="Enter Last Name"/>
+                <input type="text" className="form-control" name="LastName" defaultValue={props.user.LastName} placeholder="Enter Last Name" required/>
             </div>
             <div className="form-group">
                 <label className="form-label" htmlFor="PreferredName">Preferred Name:</label>
@@ -109,7 +111,7 @@ export default function UserForm(props){
             </div>
             <div className="form-group">
                 <label className="form-label" htmlFor="Email">Email Address:</label>
-                <input type="email" className="form-control" name="Email" defaultValue={props.user.Email} placeholder="Enter Valid Email Address" />
+                <input type="email" className="form-control" name="Email" defaultValue={props.user.Email} placeholder="Enter Valid Email Address" required/>
             </div>
             <div className="form-group">
                 <label className="form-label" htmlFor="Phone">Phone Number:</label>
@@ -142,5 +144,6 @@ export default function UserForm(props){
             <button className="bg-black text-white p-3">Submit</button>
             <Link href={cancelLink}>Cancel</Link>
         </form>
+        </div>
     )
 }

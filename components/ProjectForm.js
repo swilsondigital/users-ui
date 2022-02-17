@@ -65,7 +65,7 @@ export default function ProjectForm(props){
     }
 
     const formatDate = (datestring) => {
-        if (datestring !== "") {
+        if (datestring !== null) {
             let d = new Date(Date.parse(datestring))
             return `${d.getFullYear()}-${('0' + (d.getMonth() + 1)).slice(-2)}-${('0' + (d.getDate())).slice(-2)}`
         }

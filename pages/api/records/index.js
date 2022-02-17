@@ -1,7 +1,7 @@
 export default async function handler(req, res){
     // set initial options
     let fetchOptions = {method: req.method, headers: {'Content-Type': 'application/json'}},
-        fetchURL = (req.method === "POST" ? `/clients/${req.body.ClientID}/projects/` : '/projects/')
+        fetchURL = (req.method === "POST" ? `/projects/${req.body.ProjectID}/records/` : '/projects/')
     // setup body for api request
     switch(req.method){
         case "POST":
