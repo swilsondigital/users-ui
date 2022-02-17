@@ -15,7 +15,8 @@ export default function ListClients({clients}) {
                     </ul>
                 </div>
                 : <p>No Clients</p>
-        }
+            }
+        <Link href="/">Back To Dashboard</Link>
         </div>
     )
 }

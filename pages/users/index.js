@@ -29,6 +29,7 @@ export default function ListUsers() {
                     })}
                 </ul>
             </div> 
+            <Link href="/">Back To Dashboard</Link>
         </div>
     );
 }

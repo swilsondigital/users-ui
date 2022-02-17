@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import DeleteModelButton from "../../../components/DeleteModelButton";
 
 export default function ViewClient({client}) {
 
@@ -30,8 +31,15 @@ export default function ViewClient({client}) {
         return list.join(", ")
     }
 
+    const projectEngineers = (engineers) => {
+        let list = engineers.map(e => {
+            return `${e.User.FirstName} ${e.User.LastName}`
+        })
+        return list.join(", ")
+    }
+
     const formatDate = (datestring) => {
-        if (datestring !== "") {
+        if (datestring !== null) {
             let d = new Date(Date.parse(datestring))
             return d.toLocaleDateString("en-US")
         }
@@ -41,6 +49,7 @@ export default function ViewClient({client}) {
     // render client info, contacts, projects with first few technologies & engineers images
     return (
         <div>
+            <Link href="/clients/">Back To Client List</Link>
             <h2>{client.Name}</h2>
             {
                 (client.Logo !== undefined && client.Logo !== null) &&
@@ -74,8 +83,8 @@ export default function ViewClient({client}) {
                         { projects.map((p) => { 
                             return <tr key={p.ID}>
                                     <td>{p.ID}</td>
-                                    <td><Link href={`/clients/${client.ID}/projects/${p.ID}`}>{p.Name}</Link></td>
-                                    <td>Engineers Here</td>
+                                    <td><Link href={`/clients/${client.ID}/projects/${p.ID}`}>{( p.Name ? p.Name : "(unnamed)")}</Link></td>
+                                    <td>{projectEngineers(p.PortfolioRecords)}</td>
                                     <td>{projectTech(p.Technologies)}</td>
                                     <td>{formatDate(p.Start_Date)}</td>
                                     <td>{formatDate(p.Delivery_Date)}</td>
@@ -87,6 +96,9 @@ export default function ViewClient({client}) {
                 </table>
             }
             <Link href={`/clients/${client.ID}/projects/create`}>Create New Project</Link>
+
+            <DeleteModelButton modelID={client.ID} model="client" redirect="/clients/">Delete Client</DeleteModelButton>
+            <button onClick={() => {window.location.href = `/clients/${client.ID.toString()}/edit`}}>Edit Client</button>
         </div>
     );
 }
